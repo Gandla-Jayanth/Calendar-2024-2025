@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024-2025 Calendar</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="calendar-wrapper">
+    <h1>2024-2025 Calendar</h1>
+    <div id="calendar"></div>
+</div>
+
+<script>
+    const years = [2024, 2025];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const calendarDiv = document.getElementById('calendar');
+
+    years.forEach(year => {
+        for (let month = 0; month < 12; month++) {
+            const monthDiv = document.createElement('div');
+            monthDiv.innerHTML = `<h2>${months[month]} ${year}</h2>`;
+
+            const daysHeader = document.createElement('ul');
+            daysOfWeek.forEach(day => {
+                const li = document.createElement('li');
+                li.textContent = day;
+                daysHeader.appendChild(li);
+            });
+            monthDiv.appendChild(daysHeader);
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDayOfWeek = new Date(year, month, 1).getDay();
+            const totalDays = daysInMonth + firstDayOfWeek;
+            const totalWeeks = Math.ceil(totalDays / 7);
+
+            const daysList = document.createElement('ul');
+            daysList.classList.add('calendar');
+
+            for (let i = 0; i < totalWeeks * 7; i++) {
+                const day = i - firstDayOfWeek + 1;
+                const li = document.createElement('li');
+                li.textContent = (day > 0 && day <= daysInMonth) ? day : '';
+                daysList.appendChild(li);
+            }
+            monthDiv.appendChild(daysList);
+            calendarDiv.appendChild(monthDiv);
+        }
+    });
+</script>
+</body>
+</html>
